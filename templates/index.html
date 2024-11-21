@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Classification</title>
+</head>
+<body>
+    <h1>Image Classification</h1>
+    
+    <!-- Upload Form -->
+    <form method="POST" enctype="multipart/form-data">
+        <label for="model">Choose a Model:</label>
+        <select name="model" id="model">
+            {% for model in models %}
+            <option value="{{ model }}" {% if model == selected_model %}selected{% endif %}>
+                {{ model }}
+            </option>
+            {% endfor %}
+        </select>
+        <br><br>
+        <input type="file" name="file" accept="image/*">
+        <button type="submit">Classify Image</button>
+    </form>
+
+    <!-- Error Message -->
+    {% if error %}
+    <p style="color: red;">{{ error }}</p>
+    {% endif %}
+
+    <!-- Results -->
+    {% if results %}
+    <h2>Results:</h2>
+    <ul>
+        {% for result in results %}
+        <li>{{ result.label }}: {{ result.probability }}</li>
+        {% endfor %}
+    </ul>
+    <img src="{{ uploaded_image }}" alt="Uploaded Image" style="max-width: 300px;">
+    {% endif %}
+</body>
+</html>
